@@ -8,16 +8,16 @@ const connectDB = require("./config/dbConfig");
 connectDB();
 
 // CORS setup to allow requests from frontend
-app.use(
-  cors({
-    origin: [
-      "http://localhost:3000",
-      "http://localhost:3001",
-      "https://mern-portfolio-4-yvv0.vercel.app"
-    ],
-    credentials: true,
-  })
-);
+
+app.use(cors({
+  origin: [
+    "http://localhost:3000",
+    "https://mern-portfolio-t58u-llbqtma8d-chloe-nitcheus-projects.vercel.app",
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
+}));
+
 const portfolioRoute = require("./routes/portfolioRoute");
 
 // Parse JSON bodies
@@ -30,9 +30,9 @@ app.use("/api/portfolio", portfolioRoute);
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "client/build")));
 
- app.get(/.*/, (req, res) => {
-  res.sendFile(path.join(__dirname, "client/build/index.html"));
-});
+  app.get(/.*/, (req, res) => {
+    res.sendFile(path.join(__dirname, "client/build/index.html"));
+  });
 
 }
 
