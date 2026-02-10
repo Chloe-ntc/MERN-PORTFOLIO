@@ -15,8 +15,8 @@ function AdminProjects() {
 
   const onFinish = async (values) => {
     try {
-        const tempTechnologies = values?.technologies?.split(" , ") || [];
-        values.technologies = tempTechnologies;
+      const tempTechnologies = values?.technologies?.split(" , ") || [];
+      values.technologies = tempTechnologies;
       dispatch(showLoading());
       let response;
       if (selectedItemForEdit) {
@@ -87,6 +87,7 @@ function AdminProjects() {
               {project.title}
             </h1>
             <hr />
+            <img src={project.image} alt="" className="h-60 w-80" />
             <h1>Role : {project.title}</h1>
             <h1>Description : {project.description}</h1>
             <div className="flex justify-end gap-5 mt-5">
@@ -107,65 +108,69 @@ function AdminProjects() {
         ))}
       </div>
 
-     {
-      (type === "add" || selectedItemForEdit) && (
-        <Modal
-        open={showAddEditModal}
-        title={selectedItemForEdit ? "Edit Project" : "Add Project"}
-        onCancel={() => {
-          setShowAddEditModal(false);
-          setSelectedItemForEdit(null);
-        }}
-        footer={null}
-      >
-        <Form
-          layout="vertical"
-          initialValues={{
-            ...selectedItemForEdit,
-            technologies : selectedItemForEdit?.technologies?.join(" , "),
+      {
+        (type === "add" || selectedItemForEdit) && (
+          <Modal
+            open={showAddEditModal}
+            title={selectedItemForEdit ? "Edit Project" : "Add Project"}
+            onCancel={() => {
+              setShowAddEditModal(false);
+              setSelectedItemForEdit(null);
+            }}
+            footer={null}
+          >
+            <Form
+              layout="vertical"
+              initialValues={{
+                ...selectedItemForEdit,
+                technologies: selectedItemForEdit?.technologies?.join(" , "),
 
-          } || {}}
-          onFinish={onFinish}
-        >
-          <Form.Item name="title" label="Title">
-            <input placeholder="Title" />
-          </Form.Item>
-
-          <Form.Item name="description" label="Description">
-            <textarea placeholder="Description" />
-          </Form.Item>
-
-          <Form.Item name="technologies" label="Technologies">
-            <input placeholder="Technologies" />
-          </Form.Item>
-
-          <Form.Item name="link" label="Link">
-            <input placeholder="Link" />
-          </Form.Item>
-
-          <div className="flex gap-3">
-            <button
-              type="button"
-              className="border border-primary text-primary px-5 py-2"
-              onClick={() => {
-                setShowAddEditModal(false);
-                setSelectedItemForEdit(null);
-              }}
+              } || {}}
+              onFinish={onFinish}
             >
-              Cancel
-            </button>
+              <Form.Item name="title" label="Title">
+                <input placeholder="Title" />
+              </Form.Item>
 
-            <button
-              type="submit"
-              className="bg-primary text-white px-5 py-2 ml-auto"
-            >
-              {selectedItemForEdit ? "Update" : "Add"}
-            </button>
-          </div>
-        </Form>
-      </Modal>
-      )
-     }
+              <Form.Item name="description" label="Description">
+                <textarea placeholder="Description" />
+              </Form.Item>
+
+              <Form.Item name="technologies" label="Technologies">
+                <input placeholder="Technologies" />
+              </Form.Item>
+
+              <Form.Item name="link" label="Link">
+                <input placeholder="Link" />
+              </Form.Item>
+              <Form.Item name="image" label="Project Image (URL)">
+                <input placeholder=" image URL" />
+              </Form.Item>
+
+
+              <div className="flex gap-3">
+                <button
+                  type="button"
+                  className="border border-primary text-primary px-5 py-2"
+                  onClick={() => {
+                    setShowAddEditModal(false);
+                    setSelectedItemForEdit(null);
+                  }}
+                >
+                  Cancel
+                </button>
+
+                <button
+                  type="submit"
+                  className="bg-primary text-white px-5 py-2 ml-auto"
+                >
+                  {selectedItemForEdit ? "Update" : "Add"}
+                </button>
+              </div>
+            </Form>
+          </Modal>
+        )
+      }
     </div>
   );
 }

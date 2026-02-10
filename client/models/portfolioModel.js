@@ -21,7 +21,6 @@ const aboutSchema = new mongoose.Schema({
 });
 
 const experienceSchema = new mongoose.Schema({
-  image: { type: String },
   title: { type: String, required: true },
   period: { type: String, required: true },
   company: { type: String, required: true },
@@ -29,7 +28,6 @@ const experienceSchema = new mongoose.Schema({
 });
 
 const projectSchema = new mongoose.Schema({
-  image: { type: String },
   title: { type: String, required: true },
   description: { type: String, required: true },
   link: { type: String, required: true },
