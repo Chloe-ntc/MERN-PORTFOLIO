@@ -11,8 +11,9 @@ connectDB();
 app.use(
   cors({
     origin: [
-      "http://localhost:3000",                    // local frontend
-      "https://mern-portfolio-4-yvv0.vercel.app" // deployed frontend
+      "http://localhost:3000",
+      "http://localhost:3001",
+      "https://mern-portfolio-4-yvv0.vercel.app"
     ],
     credentials: true,
   })
