@@ -16,13 +16,12 @@ app.use(
     origin: [
       "http://localhost:3000",
       "http://localhost:3001",
-      "https://mern-portfolio-t58u-kl24j7vb9-chloe-nitcheus-projects.vercel.app",
+      "https://mern-portfolio-t58u-3sbnas57l-chloe-nitcheus-projects.vercel.app",
       "https://mern-portfolio-4-yvv0.onrender.com"
     ],
     credentials: true,
   })
 );
-
 app.use("/api/portfolio", portfolioRoute);
 
 const port = process.env.PORT || 5000;
