@@ -4,7 +4,7 @@ import Loader from "./components/Loader";
 import { useEffect, useCallback } from "react";
 import { api } from "./api";
 import { useDispatch, useSelector } from "react-redux";
-import { showLoading, hideLoading, setPortfolioData, reloadData as setReloadData } from "./redux/rootSlice";
+import { showLoading, hideLoading, setPortfolioData, ReloadData } from "./redux/rootSlice";
 import Admin from "./pages/Admin";
 import Login from "./pages/Admin/Login";
 
@@ -17,7 +17,7 @@ function App() {
       dispatch(showLoading());
       const response = await api.get("/portfolio/get-portfolio-data");
       dispatch(setPortfolioData(response.data));
-      dispatch(setReloadData(false));
+      dispatch(ReloadData(false));
     } catch (error) {
       console.log(error);
     } finally {
