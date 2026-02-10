@@ -1,7 +1,7 @@
 import { message } from 'antd';
 import React from 'react'
 import { hideLoading, showLoading } from '../../redux/rootSlice';
-import axios from 'axios';
+import { api } from '../../api';
 import { useDispatch } from 'react-redux';
 
 function Login() {
@@ -14,7 +14,7 @@ function Login() {
     const login = async () => {
         try {
             dispatch(showLoading())
-            const response = await axios.post("http://localhost:5000/api/portfolio/admin-login", user);
+            const response = await api.post("/api/portfolio/admin-login", user);
             dispatch(hideLoading())
             if (response.data.success) {
                 message.success(response.data.message);
