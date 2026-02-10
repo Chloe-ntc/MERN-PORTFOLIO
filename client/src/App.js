@@ -12,32 +12,39 @@ function App() {
   const { loading, reloadData } = useSelector((state) => state.root);
   const dispatch = useDispatch();
 
-  const getPortfolioData = useCallback(async () => {
+  // Fetch portfolio data
+  const fetchPortfolioData = useCallback(async () => {
+    dispatch(showLoading());
     try {
-      dispatch(showLoading());
       const response = await api.get("/api/portfolio/get-portfolio-data");
-      dispatch(setPortfolioData(response.data));
+      if (response?.data) {
+        dispatch(setPortfolioData(response.data));
+      }
       dispatch(ReloadData(false));
     } catch (error) {
-      console.log(error);
+      console.error("Error fetching portfolio data:", error);
     } finally {
       dispatch(hideLoading());
     }
   }, [dispatch]);
 
+  // Run once on mount
   useEffect(() => {
-    getPortfolioData();
-  }, [getPortfolioData]);
+    fetchPortfolioData();
+  }, [fetchPortfolioData]);
 
+  // Re-fetch if reloadData is true
   useEffect(() => {
     if (reloadData) {
-      getPortfolioData();
+      fetchPortfolioData();
     }
-  }, [reloadData, getPortfolioData]);
+  }, [reloadData, fetchPortfolioData]);
 
   return (
     <BrowserRouter>
+      {/* Loader appears while fetching */}
       {loading && <Loader />}
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/admin" element={<Admin />} />
