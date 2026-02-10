@@ -12,7 +12,7 @@ app.use(
     origin: [
       "http://localhost:3000",
       "http://localhost:3001",
-      "https://mern-portfolio-t58u-3sbnas57l-chloe-nitcheus-projects.vercel.app",
+      "https://mern-portfolio-t58u-2epbxvi91-chloe-nitcheus-projects.vercel.app",
       "https://mern-portfolio-4-yvv0.onrender.com"
     ],
     credentials: true,
