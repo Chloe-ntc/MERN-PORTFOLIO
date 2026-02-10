@@ -6,11 +6,7 @@ require("dotenv").config();
 const connectDB = require("./config/dbConfig");
 connectDB();
 
-const portfolioRoute = require("./routes/portfolioRoute");
-
-app.use(express.json());
-
-
+// CORS setup FIRST
 app.use(
   cors({
     origin: [
@@ -22,6 +18,12 @@ app.use(
     credentials: true,
   })
 );
+
+// Parse JSON SECOND
+app.use(express.json());
+
+// Routes THIRD
+const portfolioRoute = require("./routes/portfolioRoute");
 app.use("/api/portfolio", portfolioRoute);
 
 const port = process.env.PORT || 5000;
