@@ -1,8 +1,8 @@
 import React from "react";
 import { Form, message } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { showLoading, hideLoading } from "../../redux/rootSlice";
-import axios from "axios";
+import { showLoading, hideLoading, ReloadData } from "../../redux/rootSlice";
+import { api } from "../../api";
 
 function AdminAbout() {
   const dispatch = useDispatch();
@@ -28,7 +28,7 @@ function AdminAbout() {
 
       dispatch(showLoading());
 
-      const response = await axios.post("/api/portfolio/update-about", {
+      const response = await api.post("/api/portfolio/update-about", {
         ...values,
         skills: tempSkills,
         _id: portfolioData.about._id,
@@ -38,6 +38,7 @@ function AdminAbout() {
 
       if (response.data.success) {
         message.success(response.data.message);
+        dispatch(ReloadData(true));
       } else {
         message.error(response.data.message);
       }

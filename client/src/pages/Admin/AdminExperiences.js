@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Modal, Form } from "antd";
 import { showLoading, hideLoading, ReloadData } from "../../redux/rootSlice";
 import { message } from "antd";
-import axios from "axios";
+import { api } from "../../api";
 
 function Experiences() {
   const dispatch = useDispatch();
@@ -18,12 +18,12 @@ function Experiences() {
       dispatch(showLoading());
       let response;
       if (selectedItemForEdit) {
-        response = await axios.post("/api/portfolio/update-experience", {
+        response = await api.post("/api/portfolio/update-experience", {
           values,
           _id: selectedItemForEdit._id,
         });
       } else {
-        response = await axios.post("/api/portfolio/add-experience", {
+        response = await api.post("/api/portfolio/add-experience", {
           values,
           _id: portfolioData.intro._id,
         });
@@ -33,7 +33,6 @@ function Experiences() {
         message.success(response.data.message);
         setShowAddEditModal(false);
         setSelectedItemForEdit(null);
-        dispatch(hideLoading());
         dispatch(ReloadData(true));
       } else {
         message.error(response.data.message);
@@ -47,13 +46,12 @@ function Experiences() {
   const onDelete = async (item) => {
     try {
       dispatch(showLoading());
-      const response = await axios.post("/api/portfolio/delete-experience", {
+      const response = await api.post("/api/portfolio/delete-experience", {
         _id: item._id,
       });
       dispatch(hideLoading());
       if (response.data.success) {
         message.success(response.data.message);
-        dispatch(hideLoading());
         dispatch(ReloadData(true));
       } else {
         message.error(response.data.message);
@@ -70,7 +68,6 @@ function Experiences() {
         <button
           className="bg-primary px-5 py-2 text-white"
           onClick={() => {
-
             setSelectedItemForEdit(null);
             setShowAddEditModal(true);
           }}
@@ -80,7 +77,7 @@ function Experiences() {
       </div>
       <div className="grid grid-cols-4 gap-5 mt-5 sm:grid-cols-1">
         {experiences.map((experience) => (
-          <div className="shadow border p-5 border-gray-400 flex flex-col">
+          <div key={experience._id} className="shadow border p-5 border-gray-400 flex flex-col">
             <h1 className="text-primary text-xl font-bold">
               {experience.period}
             </h1>

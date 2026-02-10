@@ -1,8 +1,8 @@
 import React from "react";
 import { Form, message } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { showLoading, hideLoading } from "../../redux/rootSlice";
-import axios from "axios";
+import { showLoading, hideLoading, ReloadData } from "../../redux/rootSlice";
+import { api } from "../../api";
 
 function AdminIntro() {
   const dispatch = useDispatch();
@@ -10,13 +10,14 @@ function AdminIntro() {
   const onFinish = async (values) => {
     try {
       dispatch(showLoading());
-      const response = await axios.post("/api/portfolio/update-intro", {
+      const response = await api.post("/api/portfolio/update-intro", {
         ...values,
         _id: portfolioData.intro._id,
       });
       dispatch(hideLoading());
       if (response.data.success) {
         message.success(response.data.message);
+        dispatch(ReloadData(true));
       } else {
         message.error(response.data.message);
       }

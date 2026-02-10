@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Modal, Form } from "antd";
 import { showLoading, hideLoading, ReloadData } from "../../redux/rootSlice";
 import { message } from "antd";
-import axios from "axios";
+import { api } from "../../api";
 
 function AdminProjects() {
   const dispatch = useDispatch();
@@ -20,12 +20,12 @@ function AdminProjects() {
       dispatch(showLoading());
       let response;
       if (selectedItemForEdit) {
-        response = await axios.post("/api/portfolio/update-project", {
+        response = await api.post("/api/portfolio/update-project", {
           values,
           _id: selectedItemForEdit._id,
         });
       } else {
-        response = await axios.post("/api/portfolio/add-project", {
+        response = await api.post("/api/portfolio/add-project", {
           values,
           _id: portfolioData.intro._id,
         });
@@ -35,7 +35,6 @@ function AdminProjects() {
         message.success(response.data.message);
         setShowAddEditModal(false);
         setSelectedItemForEdit(null);
-        dispatch(hideLoading());
         dispatch(ReloadData(true));
       } else {
         message.error(response.data.message);
@@ -49,13 +48,12 @@ function AdminProjects() {
   const onDelete = async (item) => {
     try {
       dispatch(showLoading());
-      const response = await axios.post("/api/portfolio/delete-project", {
+      const response = await api.post("/api/portfolio/delete-project", {
         _id: item._id,
       });
       dispatch(hideLoading());
       if (response.data.success) {
         message.success(response.data.message);
-        dispatch(hideLoading());
         dispatch(ReloadData(true));
       } else {
         message.error(response.data.message);
@@ -72,7 +70,6 @@ function AdminProjects() {
         <button
           className="bg-primary px-5 py-2 text-white"
           onClick={() => {
-
             setSelectedItemForEdit(null);
             setShowAddEditModal(true);
           }}
@@ -82,7 +79,7 @@ function AdminProjects() {
       </div>
       <div className="grid grid-cols-4 gap-5 mt-5 sm:grid-cols-1">
         {projects.map((project) => (
-          <div className="shadow border p-5 border-gray-400 flex flex-col">
+          <div key={project._id} className="shadow border p-5 border-gray-400 flex flex-col">
             <h1 className="text-primary text-xl font-bold">
               {project.title}
             </h1>
@@ -124,7 +121,6 @@ function AdminProjects() {
               initialValues={{
                 ...selectedItemForEdit,
                 technologies: selectedItemForEdit?.technologies?.join(" , "),
-
               } || {}}
               onFinish={onFinish}
             >
@@ -146,7 +142,6 @@ function AdminProjects() {
               <Form.Item name="image" label="Project Image (URL)">
                 <input placeholder=" image URL" />
               </Form.Item>
-
 
               <div className="flex gap-3">
                 <button
