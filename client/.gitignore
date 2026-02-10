@@ -1,0 +1,11 @@
+# Node modules
+node_modules/
+
+# Build output
+build/
+
+# Babel / webpack cache
+.cache/
+
+# Env files
+.env
