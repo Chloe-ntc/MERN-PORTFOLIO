@@ -1,42 +1,39 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Loader from "./components/Loader";
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import { api } from "./api";
 import { useDispatch, useSelector } from "react-redux";
-import { showLoading, hideLoading, setPortfolioData } from "./redux/rootSlice";
+import { showLoading, hideLoading, setPortfolioData, reloadData as setReloadData } from "./redux/rootSlice";
 import Admin from "./pages/Admin";
-import { ReloadData } from "./redux/rootSlice";
 import Login from "./pages/Admin/Login";
 
 function App() {
-  const { loading, portfolioData, reloadData } = useSelector((state) => state.root);
+  const { loading, reloadData } = useSelector((state) => state.root);
   const dispatch = useDispatch();
 
-  const getPortfolioData = async () => {
+  const getPortfolioData = useCallback(async () => {
     try {
       dispatch(showLoading());
       const response = await api.get("/portfolio/get-portfolio-data");
       dispatch(setPortfolioData(response.data));
-      dispatch(reloadData(false));
-      dispatch(hideLoading());
+      dispatch(setReloadData(false));
     } catch (error) {
       console.log(error);
     } finally {
       dispatch(hideLoading());
     }
-  };
+  }, [dispatch]);
 
   useEffect(() => {
     getPortfolioData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getPortfolioData]);
 
   useEffect(() => {
     if (reloadData) {
       getPortfolioData();
     }
-  }, [reloadData]);
+  }, [reloadData, getPortfolioData]);
 
   return (
     <BrowserRouter>
