@@ -1,7 +1,6 @@
+# dependencies
 /node_modules
 
-.env
-client/.env
 # production build
 /build
 

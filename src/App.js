@@ -15,7 +15,7 @@ function App() {
   const getPortfolioData = useCallback(async () => {
     try {
       dispatch(showLoading());
-      const response = await api.get("/portfolio/get-portfolio-data");
+      const response = await api.get("/api/portfolio/get-portfolio-data");
       dispatch(setPortfolioData(response.data));
       dispatch(ReloadData(false));
     } catch (error) {
